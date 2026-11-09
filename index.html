@@ -2,62 +2,146 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ENERGYMOL | Líderes en Energía Renovable</title>
+<title>EducaVR - Aprende Jugando</title>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 <style>
-:root{--blue:#113f73;--blue2:#0a2d58;--green:#59b52b;--light:#f7fbff;--ink:#17355f}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#fff;color:#0e2745}img{display:block;width:100%;height:100%;object-fit:cover}a{text-decoration:none;color:inherit}.wrap{width:min(1180px,calc(100% - 28px));margin:auto}
-.nav{position:sticky;top:0;z-index:50;background:white;border-radius:0 0 28px 28px;box-shadow:0 10px 28px rgba(0,56,120,.12)}.navin{height:78px;display:flex;align-items:center;justify-content:space-between;gap:24px}.logo{display:flex;align-items:center;gap:10px}.logo img{width:55px;height:55px;object-fit:contain}.logo strong{font-size:28px;color:#208a24}.logo small{display:block;font-size:10px;color:#333}.navlinks{display:flex;gap:22px;font-size:13px;font-weight:700}.navlinks a:first-child{background:linear-gradient(90deg,#69b71e,#2e8f18);color:#fff;padding:10px 18px;border-radius:999px}
-.hero{position:relative;overflow:hidden;background:linear-gradient(135deg,#fafdff,#e9f6ff);padding:28px 0 14px}.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:18px;align-items:center}.hero-copy{padding:24px 0}.hero h1{font-size:64px;line-height:.93;margin:0;color:#153c6e;letter-spacing:-.04em}.hero h1 span{color:#53b329}.hero p{font-size:18px;line-height:1.55;color:#334e6c;max-width:600px}.hero-actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;padding:14px 22px;border-radius:999px;font-weight:800;font-size:14px}.btn-green{background:linear-gradient(90deg,#66bc20,#2f991c);color:white}.btn-outline{border:2px solid #183d6d;color:#183d6d;background:#fff}.hero-img{height:470px;border-radius:0 0 0 80px;overflow:hidden;box-shadow:0 20px 40px rgba(17,63,115,.14)}
-.stats{margin-top:12px;background:white;border-radius:26px;box-shadow:0 12px 30px rgba(17,63,115,.15);display:grid;grid-template-columns:repeat(4,1fr);padding:18px 12px}.stat{display:flex;align-items:center;gap:12px;padding:8px 18px;border-right:1px solid #d5e2ef}.stat:last-child{border-right:0}.stat b{display:grid;place-items:center;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#61bf20,#238c20);color:white;font-size:20px}.stat strong{font-size:20px;color:#173d6f;display:block}.stat small{font-size:11px;color:#51667c}
-.section{padding:68px 0}.section-title{text-align:center;margin-bottom:30px}.section-title h2{font-size:42px;margin:0;color:#173d6f}.section-title p{margin:6px 0;color:#4f6376}.line-title{display:flex;align-items:center;justify-content:center;gap:24px}.line-title:before,.line-title:after{content:"";width:160px;height:2px;background:#61b62f}
-.cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.card{background:white;border-radius:24px;padding:26px 20px;text-align:center;box-shadow:0 10px 24px rgba(17,63,115,.10);border:1px solid #dce8f4;min-height:250px}.icon{width:64px;height:64px;border-radius:22px;margin:0 auto 18px;background:#eef8ff;display:grid;place-items:center;font-size:30px;color:#0e71bb}.card:nth-child(2) .icon,.card:nth-child(4) .icon{color:#4fb321}.card h3{font-size:20px;color:#183d6c;margin:0 0 10px}.card p{font-size:14px;line-height:1.55;color:#41576c}
-.quote{background:linear-gradient(120deg,#0f4d7c,#0c315f);color:white;border-radius:28px;overflow:hidden;display:grid;grid-template-columns:1fr 1.1fr;align-items:stretch}.quote-copy{padding:34px}.quote-copy h3{font-size:34px;margin:0 0 10px}.quote-copy p{margin:0 0 14px;color:#d7e6f4}.quote ul{list-style:none;padding:0;margin:0;display:grid;gap:9px}.quote li:before{content:"✓";display:inline-grid;place-items:center;width:22px;height:22px;background:#70c72a;border-radius:50%;margin-right:8px;color:white;font-weight:800}.quote-img{min-height:300px}
-.packages{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}.pkg{background:white;border:1px solid #dce8f4;border-radius:22px;padding:12px;box-shadow:0 10px 24px rgba(17,63,115,.08);text-align:center}.pkg .thumb{height:150px;border-radius:14px;overflow:hidden;background:#f4f7fa}.pkg h4{font-size:14px;color:#173d6f;margin:10px 0 5px;min-height:36px}.pkg p{font-size:11px;color:#53697e;min-height:60px}.price{display:inline-block;background:linear-gradient(90deg,#6bbf1d,#3b9e1a);color:white;font-size:17px;font-weight:800;padding:8px 14px;border-radius:999px}
-.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.project{position:relative;height:270px;border-radius:22px;overflow:hidden}.project:after{content:"";position:absolute;inset:55% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.72))}.project span{position:absolute;z-index:2;bottom:14px;left:14px;color:white;font-weight:800;background:rgba(66,178,34,.9);padding:8px 12px;border-radius:999px}
-.cta{margin-top:36px;background:linear-gradient(120deg,#0a3e69,#0b274e);border-radius:30px;color:white;padding:28px;display:grid;grid-template-columns:1.2fr 1fr 1fr;align-items:center;gap:18px}.cta h3{font-size:38px;margin:0;line-height:.95}.cta h3 span{color:#79d12c}.cta p{margin:0;color:#d8e5ef;line-height:1.5}.contact{font-size:18px;line-height:1.6}.contact small{display:block;font-size:12px;color:#c9d8e6}.footer{padding:20px 0 40px;text-align:center;color:#5d7288;font-size:12px}
-@media(max-width:900px){.navlinks{display:none}.hero-grid,.quote,.cta{grid-template-columns:1fr}.hero h1{font-size:48px}.hero-img{height:360px;border-radius:28px}.stats{grid-template-columns:1fr 1fr}.cards4{grid-template-columns:1fr 1fr}.packages{grid-template-columns:1fr 1fr 1fr}.projects{grid-template-columns:1fr}.project{height:240px}}
-@media(max-width:520px){.hero h1{font-size:40px}.cards4{grid-template-columns:1fr}.packages{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr}.line-title:before,.line-title:after{width:60px}.section-title h2{font-size:34px}}
+  body { margin:0; font-family: sans-serif; }
 </style>
 </head>
 <body>
-<header class="nav"><div class="wrap navin">
-<a class="logo" href="#inicio"><img src="1000204907.jpg"><div><strong>ENERGYMOL</strong><small>Líderes en Energía Renovable</small></div></a>
-<nav class="navlinks"><a href="#inicio">Inicio</a><a href="#soluciones">Soluciones⌄</a><a href="#bombeo">Bombeo Solar</a><a href="#paneles">Paneles Solares</a><a href="#proyectos">Proyectos</a><a href="#contacto">Contacto</a></nav>
-</div></header>
+<a-scene>
+  <!-- Cámara VR con cursor de mirada -->
+  <a-entity position="0 1.6 0">
+    <a-camera>
+      <a-cursor color="yellow" fuse="true" fuse-timeout="1500"
+        geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03">
+      </a-cursor>
+    </a-camera>
+  </a-entity>
 
-<section class="hero" id="inicio"><div class="wrap">
-<div class="hero-grid"><div class="hero-copy"><h1>Energía solar y<br>bombeo inteligente<br>para hogar, negocio<br><span>y campo</span></h1><p>Ahorra en tu factura de luz, aprovecha la energía renovable y obtén soluciones solares a la medida de tus necesidades.</p><div class="hero-actions"><a class="btn btn-green" href="#contacto">⚡ Cotiza tu proyecto →</a><a class="btn btn-outline" href="#proyectos">▶ Ver proyectos</a></div></div><div class="hero-img"><img src="1000204908.jpg"></div></div>
-<div class="stats"><div class="stat"><b>▣</b><div><strong>+11 años</strong><small>de experiencia</small></div></div><div class="stat"><b>⚙</b><div><strong>Hasta 200 HP</strong><small>en bombeo solar</small></div></div><div class="stat"><b>●</b><div><strong>Cobertura</strong><small>en varios estados</small></div></div><div class="stat"><b>♻</b><div><strong>Ahorro de hasta 90%</strong><small>en energía eléctrica</small></div></div></div>
-</div></section>
+  <a-sky color="#87CEEB"></a-sky>
+  <a-plane position="0 0 -4" rotation="-90 0 0" width="30" height="30" color="#7CFC00"></a-plane>
 
-<section class="section" id="soluciones"><div class="wrap"><div class="section-title"><div class="line-title"><h2>Nuestras soluciones</h2></div><p>Tecnología solar confiable y eficiente para cada necesidad.</p></div><div class="cards4">
-<article class="card"><div class="icon">☀</div><h3>Paneles Solares</h3><p>Genera tu propia energía limpia y reduce hasta un 90% tu gasto de luz.</p></article>
-<article class="card"><div class="icon">💧</div><h3>Bombeo Solar</h3><p>Extrae y conduce agua con la energía del sol, ideal para ranchos, agricultura y ganadería.</p></article>
-<article class="card"><div class="icon">⚙</div><h3>Bombas y Motores Sumergibles</h3><p>Equipos confiables y de alto rendimiento para pozos de diferente profundidad.</p></article>
-<article class="card"><div class="icon">🛠</div><h3>Instalación y Mantenimiento</h3><p>Instalación profesional, puesta en marcha y servicio técnico especializado.</p></article>
-</div></div></section>
+  <!-- TITULO -->
+  <a-text id="titulo" value="EDUCA VR" position="-1.5 3.5 -4" color="white" width="8"></a-text>
+  <a-text id="instruccion" value="Mira un boton 2 segundos para elegir" position="-2.2 3 -4" color="black" width="6"></a-text>
+  <a-text id="pregunta" value="Elige un mundo para aprender" position="-2 2.5 -4" color="#333" width="6"></a-text>
+  <a-text id="puntaje" value="Puntos: 0" position="2.2 3.5 -4" color="gold" width="5"></a-text>
 
-<section class="section" id="bombeo"><div class="wrap"><div class="quote"><div class="quote-copy"><h3>Cotización a tu medida</h3><p>Diseñamos la solución ideal para tu proyecto. Solo necesitamos estos datos:</p><ul><li>Profundidad del pozo</li><li>Caudal o flujo</li><li>Descarga a pie de pozo o a otro lugar</li><li>Presión en línea para riego</li></ul></div><div class="quote-img"><img src="1000204919.jpg"></div></div></div></section>
+  <!-- BOTONES DE MUNDOS -->
+  <a-box id="btn-numeros" position="-2 1.5 -4" color="#FF6B6B" depth="0.3" height="0.8" width="1.8"></a-box>
+  <a-text value="NUMEROS" position="-2.6 1.5 -3.7" color="white" width="4"></a-text>
 
-<section class="section" id="paneles"><div class="wrap"><div class="section-title"><div class="line-title"><h2>Paquetes destacados</h2></div><p>Soluciones completas, confiables y listas para instalar.</p></div><div class="packages">
-<article class="pkg"><div class="thumb"><img src="1000204916.jpg"></div><h4>Paquete Casa Básico</h4><p>4 paneles solares, 8 baterías, controlador e inversor.</p><span class="price">$52,800</span></article>
-<article class="pkg"><div class="thumb"><img src="1000204917.jpg"></div><h4>Paquete Casa Premium</h4><p>4 paneles 450W, 8 baterías Trojan e inversor Growatt.</p><span class="price">$70,100</span></article>
-<article class="pkg"><div class="thumb"><img src="1000204913.jpg"></div><h4>Refrigerador Básico</h4><p>Sistema solar para refrigerador de uso doméstico.</p><span class="price">$38,300</span></article>
-<article class="pkg"><div class="thumb"><img src="1000204915.jpg"></div><h4>Refrigerador Premium</h4><p>Sistema solar con baterías premium.</p><span class="price">$45,900</span></article>
-<article class="pkg"><div class="thumb"><img src="1000204911.jpg"></div><h4>Kit Bombeo Solar Kolosal95</h4><p>Hasta 95 m de altura, ideal para riego y uso agropecuario.</p><span class="price">$30,400</span></article>
-<article class="pkg"><div class="thumb"><img src="1000204912.jpg"></div><h4>Kit Bombeo Solar Kolosal180</h4><p>Hasta 180 m de altura para proyectos de mayor demanda.</p><span class="price">$51,200</span></article>
-</div></div></section>
+  <a-box id="btn-colores" position="0 1.5 -4" color="#4ECDC4" depth="0.3" height="0.8" width="1.8"></a-box>
+  <a-text value="ANIMALES" position="-0.6 1.5 -3.7" color="white" width="4"></a-text>
 
-<section class="section" id="proyectos"><div class="wrap"><div class="section-title"><div class="line-title"><h2>Proyectos reales</h2></div><p>Soluciones que ya generan ahorro y resultados en campo, negocios y hogares.</p></div><div class="projects">
-<article class="project"><img src="1000204918.jpg"><span>📍 Instalación solar en campo</span></article>
-<article class="project"><img src="1000204908.jpg"><span>📍 Sistema de bombeo</span></article>
-<article class="project"><img src="1000204909.jpg"><span>📍 Proyecto residencial</span></article>
-</div>
+  <a-box id="btn-formas" position="2 1.5 -4" color="#FFD93D" depth="0.3" height="0.8" width="1.8"></a-box>
+  <a-text value="FORMAS" position="1.4 1.5 -3.7" color="black" width="4"></a-text>
 
-<div class="cta" id="contacto"><h3>¿Listo para ahorrar con <span>energía solar?</span></h3><div><p>Contáctanos y recibe una asesoría sin compromiso para tu hogar, negocio o rancho.</p><br><a class="btn btn-green" href="https://wa.me/526141011495" target="_blank">💬 Cotiza tu proyecto →</a></div><div class="contact"><strong>(614) 101-1495<br>(614) 504-9317<br>(614) 230-4463</strong><small>Calle Alfonso García #11508, Col. Deportistas, Chihuahua, Chihuahua</small><small>energymol@outlook.com</small><small>www.energymol.com.mx</small></div></div>
-</div></section>
+  <!-- ZONA DE JUEGO: Aqui aparecen las respuestas -->
+  <a-entity id="zona-juego" position="0 0.5 -3.5" visible="false">
+    <a-sphere id="opcion1" position="-1.5 1 -0.5" radius="0.5" color="red"></a-sphere>
+    <a-text id="txt1" value="?" position="-1.7 1 0.1" color="white" width="3"></a-text>
 
-<footer class="footer">ENERGYMOL · Líderes en Energía Renovable</footer>
+    <a-sphere id="opcion2" position="0 1 -0.5" radius="0.5" color="blue"></a-sphere>
+    <a-text id="txt2" value="?" position="-0.2 1 0.1" color="white" width="3"></a-text>
+
+    <a-sphere id="opcion3" position="1.5 1 -0.5" radius="0.5" color="green"></a-sphere>
+    <a-text id="txt3" value="?" position="1.3 1 0.1" color="white" width="3"></a-text>
+  </a-entity>
+
+</a-scene>
+
+<script>
+  let puntos = 0;
+  let modoActual = "";
+  let respuestaCorrecta = 0;
+
+  const preguntaEl = document.querySelector('#pregunta');
+  const puntajeEl = document.querySelector('#puntaje');
+  const zonaJuego = document.querySelector('#zona-juego');
+
+  function hablar(texto) {
+    const voz = new SpeechSynthesisUtterance(texto);
+    voz.lang = 'es-MX';
+    voz.rate = 0.9;
+    speechSynthesis.speak(voz);
+  }
+
+  function actualizarPuntos() {
+    puntajeEl.setAttribute('value', 'Puntos: ' + puntos);
+  }
+
+  function nuevaPregunta(modo) {
+    modoActual = modo;
+    zonaJuego.setAttribute('visible', true);
+    let num1 = Math.floor(Math.random() * 5) + 1;
+    let num2 = Math.floor(Math.random() * 5) + 1;
+    let correcta = num1 + num2;
+
+    if (modo === 'numeros') {
+      preguntaEl.setAttribute('value', `Cuanto es ${num1} + ${num2} ?`);
+      hablar(`¿Cuánto es ${num1} más ${num2}?`);
+      // Generar 3 opciones, una es la correcta
+      let opciones = [correcta, correcta + 1, correcta + 2];
+      opciones = opciones.sort(() => Math.random() - 0.5);
+      respuestaCorrecta = opciones.indexOf(correcta);
+
+      document.querySelector('#txt1').setAttribute('value', opciones[0]);
+      document.querySelector('#txt2').setAttribute('value', opciones[1]);
+      document.querySelector('#txt3').setAttribute('value', opciones[2]);
+    }
+
+    if (modo === 'animales') {
+      const animales = [
+        { nombre: 'GATO', color: 'orange' },
+        { nombre: 'PERRO', color: 'brown' },
+        { nombre: 'PATO', color: 'yellow' }
+      ];
+      let animal = animales[Math.floor(Math.random() * animales.length)];
+      preguntaEl.setAttribute('value', `Toca el ${animal.nombre}`);
+      hablar(`Toca el ${animal.nombre}`);
+      // Simplificado: la respuesta correcta es la esfera del color del animal
+      document.querySelector('#txt1').setAttribute('value', 'GATO');
+      document.querySelector('#txt2').setAttribute('value', 'PERRO');
+      document.querySelector('#txt3').setAttribute('value', 'PATO');
+      respuestaCorrecta = animales.indexOf(animal);
+    }
+
+    if (modo === 'formas') {
+      preguntaEl.setAttribute('value', `Toca la esfera VERDE`);
+      hablar(`Toca la esfera verde`);
+      document.querySelector('#opcion1').setAttribute('color', 'red');
+      document.querySelector('#opcion2').setAttribute('color', 'green');
+      document.querySelector('#opcion3').setAttribute('color', 'blue');
+      document.querySelector('#txt1').setAttribute('value', '');
+      document.querySelector('#txt2').setAttribute('value', '');
+      document.querySelector('#txt3').setAttribute('value', '');
+      respuestaCorrecta = 1;
+    }
+  }
+
+  function verificar(indice) {
+    if (indice === respuestaCorrecta) {
+      puntos += 10;
+      hablar('¡Muy bien! ¡Correcto!');
+      preguntaEl.setAttribute('value', '¡CORRECTO! +10 puntos');
+    } else {
+      hablar('Casi, intentalo de nuevo');
+      preguntaEl.setAttribute('value', 'Casi, intentalo otra vez');
+    }
+    actualizarPuntos();
+    setTimeout(() => nuevaPregunta(modoActual), 2000);
+  }
+
+  // Eventos de click por mirada (fuse)
+  document.querySelector('#btn-numeros').addEventListener('click', () => nuevaPregunta('numeros'));
+  document.querySelector('#btn-colores').addEventListener('click', () => nuevaPregunta('animales'));
+  document.querySelector('#btn-formas').addEventListener('click', () => nuevaPregunta('formas'));
+
+  document.querySelector('#opcion1').addEventListener('click', () => verificar(0));
+  document.querySelector('#opcion2').addEventListener('click', () => verificar(1));
+  document.querySelector('#opcion3').addEventListener('click', () => verificar(2));
+</script>
 </body>
 </html>
