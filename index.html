@@ -1,302 +1,398 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
-  <title>EducaVR | Aprende jugando</title>
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <style>
-    body { margin: 0; overflow: hidden; background: #101d2d; font-family: Arial, sans-serif; }
-    .nota { position: fixed; left: 50%; bottom: 8px; transform: translateX(-50%); z-index: 2;
-      color: white; background: rgba(0,0,0,.45); padding: 7px 12px; border-radius: 12px;
-      font-size: 12px; text-align: center; pointer-events: none; }
-    @media (max-width: 600px) { .nota { font-size: 11px; } }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>EDUCAVR | Academia de Exploradores</title>
+<script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+<style>
+  *{box-sizing:border-box}
+  html,body{margin:0;width:100%;height:100%;overflow:hidden;font-family:system-ui,Arial,sans-serif;background:#87cfff}
+  #entrada{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:20px;
+    background:linear-gradient(150deg,#12244a,#175a85 62%,#1ca79e);color:white;text-align:center}
+  #entrada .panel{max-width:430px;padding:26px 24px;border:1px solid #7cdded80;border-radius:26px;background:#ffffff12;
+    box-shadow:0 20px 60px #07142d77}
+  #entrada h1{margin:4px 0 10px;font-size:clamp(30px,7vw,44px)}
+  #entrada p{line-height:1.55;margin:8px 0 20px;color:#dcf7ff}
+  #entrar{padding:15px 27px;border:0;border-radius:40px;background:#ffce4c;color:#26324d;font-size:18px;font-weight:900;cursor:pointer}
+  #ayuda{position:fixed;bottom:8px;left:50%;transform:translateX(-50%);z-index:3;color:white;
+    background:#102f5988;padding:7px 13px;border-radius:30px;white-space:nowrap;font-size:12px;pointer-events:none}
+  body.en-vr #ayuda{display:none}
+</style>
 </head>
 <body>
-  <div class="nota">Sin visor: mira el centro o pulsa una tarjeta · Con visor: entra en VR</div>
-  <a-scene background="color: #A9DFF5" renderer="antialias: true; colorManagement: true"
-           vr-mode-ui="enabled: true">
-    <a-light type="ambient" color="#FFFFFF" intensity="0.88"></a-light>
-    <a-light type="directional" position="-2 5 2" intensity="0.6"></a-light>
-
-    <!-- Mundo sencillo, con colores suaves para no distraer. -->
-    <a-sky color="#A9DFF5"></a-sky>
-    <a-plane position="0 -0.02 -4" rotation="-90 0 0" width="60" height="60" color="#77BF92"></a-plane>
-    <a-circle position="0 0.005 -3.8" rotation="-90 0 0" radius="3.7" color="#DCF4E0"></a-circle>
-    <a-cylinder position="-4.5 0.65 -7" radius="0.2" height="1.3" color="#876A52"></a-cylinder>
-    <a-sphere position="-4.5 1.75 -7" radius="0.95" color="#5C9E76"></a-sphere>
-    <a-cylinder position="4.5 0.65 -7" radius="0.2" height="1.3" color="#876A52"></a-cylinder>
-    <a-sphere position="4.5 1.75 -7" radius="0.95" color="#5C9E76"></a-sphere>
-
-    <!-- Cámara a altura de los ojos. Solo detecta los elementos interactivos. -->
-    <a-entity position="0 1.6 0">
-      <a-camera wasd-controls-enabled="false">
-        <a-cursor fuse="true" fuse-timeout="1500" color="#FFD54A"
-                  raycaster="objects: .interactivo"
-                  geometry="primitive: ring; radiusInner: 0.012; radiusOuter: 0.019"
-                  material="shader: flat; color: #FFD54A; opacity: 0.9"
-                  position="0 0 -1"></a-cursor>
-      </a-camera>
-    </a-entity>
-    <!-- También permite seleccionar haciendo clic/tap en modo normal. -->
-    <a-entity cursor="rayOrigin: mouse" raycaster="objects: .interactivo"></a-entity>
-
-    <!-- MENÚ. Tiene su propio espacio y desaparece cuando empieza el juego. -->
-    <a-entity id="menu" position="0 1.6 -3.7">
-      <a-plane width="3.92" height="2.35" position="0 0 -0.12"
-               color="#233B5A" material="shader: flat; transparent: true; opacity: 0.93"></a-plane>
-      <a-text value="EDUCA VR" position="0 0.82 0.02" align="center" anchor="center"
-              color="#FFFFFF" width="5.7" wrap-count="22"></a-text>
-      <a-text value="¡Elige un mundo para aprender!" position="0 0.48 0.02" align="center"
-              color="#D2EDFC" width="4.6" wrap-count="37"></a-text>
-
-      <a-entity position="-1.18 -0.15 0.08">
-        <a-box class="interactivo" data-modo="numeros" width="1.05" height="1.0" depth="0.12"
-               color="#E65C74"></a-box>
-        <a-text value="1 + 2" position="0 0.13 0.10" align="center" color="#FFFFFF"
-                width="4" wrap-count="18"></a-text>
-        <a-text value="NÚMEROS" position="0 -0.26 0.10" align="center" color="#FFFFFF"
-                width="3.5" wrap-count="29"></a-text>
+<div id="entrada"><div class="panel">
+  <div style="font-size:46px">🚀 ⭐ 🪐</div>
+  <h1>EDUCA VR</h1>
+  <p>¡Bienvenido a la <strong>Academia de Exploradores</strong>! Aprende matemáticas, conoce animales y descubre figuras en un mundo 3D.</p>
+  <button id="entrar">¡COMENZAR AVENTURA!</button>
+  <p style="font-size:12px;margin-top:16px">Luego puedes activar el modo VR. En tus lentes, mira una tarjeta 1.2 segundos para elegir.</p>
+</div></div>
+<div id="ayuda">👆 Toca para elegir · 🥽 Activa VR para usar la mirada</div>
+<a-scene id="escena" renderer="antialias:true; colorManagement:true" background="color:#99d9fa" vr-mode-ui="enabled:true">
+  <a-sky color="#92d5f5"></a-sky>
+  <a-light type="ambient" intensity="0.95" color="#ffffff"></a-light>
+  <a-light type="directional" intensity="0.65" position="-2 6 3"></a-light>
+  <a-plane position="0 -0.02 -5" rotation="-90 0 0" width="70" height="70" color="#6cc995"></a-plane>
+  <a-circle position="0 0 -4.5" rotation="-90 0 0" radius="3.4" color="#91dcb0"></a-circle>
+  <a-entity id="paisaje"></a-entity>
+  <a-entity id="menu" position="0 1.65 -3.05"></a-entity>
+  <a-entity id="juego" position="0 -1000 -3.05" visible="false"></a-entity>
+  <a-entity id="final" position="0 -1000 -3.05" visible="false"></a-entity>
+  <a-entity id="celebracion" position="0 1.65 -2.7"></a-entity>
+  <a-entity position="0 1.6 0">
+    <a-camera wasd-controls-enabled="false">
+      <a-entity cursor="fuse:true; fuseTimeout:1200" raycaster="objects:.elegible; far:8"
+        position="0 0 -1" geometry="primitive:ring; radiusInner:0.013; radiusOuter:0.023"
+        material="shader:flat; color:#ffe36e; opacity:0.95"
+        animation__fusing="property:scale; from:1 1 1; to:0.35 0.35 0.35; dur:1200; startEvents:fusing"
+        animation__reset="property:scale; to:1 1 1; dur:120; startEvents:mouseleave,click">
       </a-entity>
-      <a-entity position="0 -0.15 0.08">
-        <a-box class="interactivo" data-modo="animales" width="1.05" height="1.0" depth="0.12"
-               color="#2EA6A1"></a-box>
-        <a-sphere position="0 0.14 0.24" radius="0.21" color="#FFC06C"></a-sphere>
-        <a-cone position="-0.14 0.35 0.23" radius-bottom="0.09" height="0.19" color="#FFC06C"></a-cone>
-        <a-cone position="0.14 0.35 0.23" radius-bottom="0.09" height="0.19" color="#FFC06C"></a-cone>
-        <a-text value="ANIMALES" position="0 -0.26 0.10" align="center" color="#FFFFFF"
-                width="3.5" wrap-count="29"></a-text>
-      </a-entity>
-      <a-entity position="1.18 -0.15 0.08">
-        <a-box class="interactivo" data-modo="formas" width="1.05" height="1.0" depth="0.12"
-               color="#EAB64C"></a-box>
-        <a-cone position="0 0.13 0.17" radius-bottom="0.19" height="0.38" color="#FFFFFF"></a-cone>
-        <a-text value="FORMAS" position="0 -0.26 0.10" align="center" color="#213048"
-                width="3.5" wrap-count="29"></a-text>
-      </a-entity>
+    </a-camera>
+  </a-entity>
+  <a-entity cursor="rayOrigin:mouse" raycaster="objects:.elegible; far:8"></a-entity>
+</a-scene>
+<script>
+(() => {
+  'use strict';
+  const $ = id => document.getElementById(id);
+  const menu = $('menu'), juego = $('juego'), fin = $('final');
+  const pantallas = {menu, juego, final:fin};
+  const MISIONES = 5;
+  const ANIMALES = ['GATO','PERRO','PATO','CONEJO','VACA','OSO'];
+  const FORMAS = ['ESFERA','CUBO','CONO','CILINDRO','ANILLO'];
+  const COLORES = {numeros:'#ff718b',animales:'#29ceb5',formas:'#ffbd53'};
+  const estado = {modo:null,ronda:0,puntos:0,racha:0,errores:0,bloqueado:false,
+    solucion:0,opciones:[],correcta:null,pregunta:'',posiciones:[],posAnterior:-1,
+    ultimo:{},temporizador:null,voz:true,mejor:0};
+  try { estado.mejor = Number(localStorage.getItem('educavr-mejor')||0); } catch(e) {}
 
-      <a-text value="Apunta la mirada durante 1.5 segundos" position="0 -0.93 0.04"
-              color="#DBEDF7" align="center" width="4.7" wrap-count="42"></a-text>
-    </a-entity>
-
-    <!-- PANTALLA DE JUEGO (separada y oculta al principio). -->
-    <a-entity id="juego" position="0 -1000 -3.7" visible="false">
-      <a-plane width="3.92" height="2.35" position="0 0 -0.12"
-               color="#233B5A" material="shader: flat; transparent: true; opacity: 0.93"></a-plane>
-
-      <a-box id="volver" class="interactivo" position="-1.45 0.90 0.05"
-             width="0.83" height="0.32" depth="0.09" color="#65799B"></a-box>
-      <a-text value="VOLVER" position="-1.45 0.90 0.12" align="center" color="#FFFFFF"
-              width="2.2" wrap-count="30"></a-text>
-
-      <a-text id="puntos" value="PUNTOS: 0" position="1.0 0.91 0.07" align="center"
-              color="#FFD663" width="3.5" wrap-count="25"></a-text>
-      <a-text id="pregunta" value="" position="0 0.47 0.05" align="center"
-              color="#FFFFFF" width="4.5" wrap-count="34"></a-text>
-
-      <a-entity id="tarjeta0" position="-1.18 -0.20 0.08">
-        <a-box class="interactivo opcion" data-idx="0" width="1.05" height="1.04" depth="0.12" color="#F3F5FF"></a-box>
-        <a-entity class="modelo" position="0 0.10 0.20"></a-entity>
-        <a-text class="etiqueta" value="" position="0 -0.31 0.17" align="center" color="#263852"
-                width="3.6" wrap-count="28"></a-text>
-      </a-entity>
-      <a-entity id="tarjeta1" position="0 -0.20 0.08">
-        <a-box class="interactivo opcion" data-idx="1" width="1.05" height="1.04" depth="0.12" color="#F3F5FF"></a-box>
-        <a-entity class="modelo" position="0 0.10 0.20"></a-entity>
-        <a-text class="etiqueta" value="" position="0 -0.31 0.17" align="center" color="#263852"
-                width="3.6" wrap-count="28"></a-text>
-      </a-entity>
-      <a-entity id="tarjeta2" position="1.18 -0.20 0.08">
-        <a-box class="interactivo opcion" data-idx="2" width="1.05" height="1.04" depth="0.12" color="#F3F5FF"></a-box>
-        <a-entity class="modelo" position="0 0.10 0.20"></a-entity>
-        <a-text class="etiqueta" value="" position="0 -0.31 0.17" align="center" color="#263852"
-                width="3.6" wrap-count="28"></a-text>
-      </a-entity>
-      <a-text id="mensaje" value="Elige una respuesta mirando una tarjeta" position="0 -0.93 0.04"
-              align="center" color="#D2EDFC" width="4.9" wrap-count="43"></a-text>
-    </a-entity>
-  </a-scene>
-
-  <script>
-    let puntos = 0;
-    let modo = '';
-    let respuestaCorrecta = -1;
-    let ocupado = false;
-    let temporizador = null;
-    const menu = document.querySelector('#menu');
-    const juego = document.querySelector('#juego');
-    const pregunta = document.querySelector('#pregunta');
-    const mensaje = document.querySelector('#mensaje');
-    const puntosEl = document.querySelector('#puntos');
-    const tarjetas = [0, 1, 2].map(n => document.querySelector('#tarjeta' + n));
-
-    function hablar(texto) {
-      if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
-      const voz = new SpeechSynthesisUtterance(texto);
-      voz.lang = 'es-MX';
-      voz.rate = 0.92;
-      window.speechSynthesis.speak(voz);
+  function elemento(tipo,padre,attrs={}) {
+    const e=document.createElement(tipo);
+    Object.entries(attrs).forEach(([k,v])=>e.setAttribute(k,String(v)));
+    padre.appendChild(e); return e;
+  }
+  const grupo=(p,a={})=>elemento('a-entity',p,a);
+  const caja=(p,a={})=>elemento('a-box',p,a);
+  const bola=(p,a={})=>elemento('a-sphere',p,a);
+  const texto=(p,c,x,y,z,ancho=4,color='#ffffff')=>elemento('a-text',p,
+    {value:c,position:`${x} ${y} ${z}`,align:'center',width:ancho,color,side:'double',
+     'font':'roboto'});
+  function voz(frase) {
+    if (!estado.voz || !('speechSynthesis' in window)) return;
+    try { speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(frase);
+      u.lang='es-MX';u.rate=0.9;u.pitch=1.08;speechSynthesis.speak(u);
+    } catch(e) {}
+  }
+  let audio;
+  function tono(frec=600,seg=.12,tipo='sine',vol=.055) {
+    try {
+      const C=window.AudioContext||window.webkitAudioContext;
+      if(!C) return;
+      audio=audio||new C();if(audio.state==='suspended') audio.resume();
+      const osc=audio.createOscillator(),gan=audio.createGain(),ahora=audio.currentTime;
+      osc.type=tipo;osc.frequency.setValueAtTime(frec,ahora);
+      gan.gain.setValueAtTime(vol,ahora);
+      gan.gain.exponentialRampToValueAtTime(.001,ahora+seg);
+      osc.connect(gan);gan.connect(audio.destination);osc.start(ahora);osc.stop(ahora+seg);
+    } catch(e) {}
+  }
+  function sonidoBien(){tono(523,.15);setTimeout(()=>tono(659,.15),110);setTimeout(()=>tono(784,.27),210);}
+  function sonidoMal(){tono(230,.19,'triangle',.035);}
+  function mezclar(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+  const elegir=a=>a[Math.floor(Math.random()*a.length)];
+  function sinRepetir(lista,clave){const posibles=lista.filter(x=>x!==estado.ultimo[clave]);
+    const v=elegir(posibles.length?posibles:lista);estado.ultimo[clave]=v;return v;}
+  function posicionCorrecta(){
+    if(!estado.posiciones.length){estado.posiciones=mezclar([0,1,2]);
+      if(estado.posiciones[0]===estado.posAnterior){[estado.posiciones[0],estado.posiciones[1]]=[estado.posiciones[1],estado.posiciones[0]];}}
+    const p=estado.posiciones.shift();estado.posAnterior=p;return p;
+  }
+  function distribuir(correcta,otras){const v=mezclar(otras).slice(0,2),p=posicionCorrecta();v.splice(p,0,correcta);return {opciones:v,pos:p};}
+  function activar(boton,accion){
+    boton.classList.add('elegible');boton.addEventListener('click',accion);
+    boton.setAttribute('animation__hover','property:scale; to:1.045 1.045 1.045; dur:150; startEvents:mouseenter');
+    boton.setAttribute('animation__out','property:scale; to:1 1 1; dur:140; startEvents:mouseleave');
+  }
+  function panel(p){
+    caja(p,{position:'0 0 -0.12',width:'3.88',height:'2.77',depth:'.11',color:'#0d2149',
+      material:'color:#102952; opacity:0.97; transparent:true'});
+    caja(p,{position:'0 1.355 -0.02',width:'3.77',height:'.07',depth:'.09',color:'#69e7ef'});
+  }
+  function botonPlano(p,etiqueta,x,y,color,funcion,w=.82){
+    const b=caja(p,{position:`${x} ${y} .12`,width:w,height:'.34',depth:'.09',color});
+    texto(p,etiqueta,x,y-.05,.19,Math.min(w*3.5,3.2),'#ffffff');activar(b,funcion);return b;
+  }
+  function mini(p,tipo,color,x,y,z,escala=1){
+    const a={position:`${x} ${y} ${z}`,scale:`${escala} ${escala} ${escala}`,color};
+    if(tipo==='sphere')return bola(p,{...a,radius:'.19'});
+    if(tipo==='box')return caja(p,{...a,width:'.32',height:'.32',depth:'.32',rotation:'13 22 0'});
+    if(tipo==='cone')return elemento('a-cone',p,{...a,'radius-bottom':'.20',height:'.37'});
+    if(tipo==='cylinder')return elemento('a-cylinder',p,{...a,radius:'.17',height:'.37'});
+    if(tipo==='torus')return elemento('a-torus',p,{...a,radius:'.21',radiusTubular:'.068'});
+  }
+  function animal3D(p,nombre){
+    const g=grupo(p,{scale:'0.88 0.88 0.88'});
+    let color='#f2ad70';
+    if(nombre==='PERRO')color='#b77c52';
+    if(nombre==='PATO')color='#ffda54';
+    if(nombre==='CONEJO')color='#e8e6f4';
+    if(nombre==='VACA')color='#f8f5ee';
+    if(nombre==='OSO')color='#a37751';
+    bola(g,{position:'0 0 0',radius:'.235',color});
+    const oreja=(x,y,ry,c,sz='0.1 0.18 0.1')=>bola(g,{position:`${x} ${y} 0`,scale:sz,color:c});
+    if(nombre==='GATO'){
+      elemento('a-cone',g,{position:'-.16 .21 0','radius-bottom':'.105',height:'.24',color});
+      elemento('a-cone',g,{position:'.16 .21 0','radius-bottom':'.105',height:'.24',color});
+    } else if(nombre==='PERRO'){
+      oreja(-.25,.06,0,'#79503b','0.13 0.23 0.13');oreja(.25,.06,0,'#79503b','0.13 0.23 0.13');
+    } else if(nombre==='CONEJO'){
+      oreja(-.12,.36,0,color,'0.105 0.30 0.11');oreja(.12,.36,0,color,'0.105 0.30 0.11');
+      oreja(-.12,.38,0,'#ed9dba','0.045 0.20 0.025');oreja(.12,.38,0,'#ed9dba','0.045 0.20 0.025');
+    } else if(nombre==='VACA'){
+      oreja(-.26,.13,0,color,'0.16 0.09 0.10');oreja(.26,.13,0,color,'0.16 0.09 0.10');
+      bola(g,{position:'-.12 .13 .205',radius:'.085',color:'#434350'});
+      bola(g,{position:'.14 -.08 .195',radius:'.07',color:'#434350'});
+    } else if(nombre==='OSO'){
+      oreja(-.19,.20,0,color,'0.12 0.12 0.10');oreja(.19,.20,0,color,'0.12 0.12 0.10');
+    } else if(nombre==='PATO'){
+      bola(g,{position:'0 -.09 -.15',scale:'0.30 0.22 0.32',color});
+      caja(g,{position:'0 -.085 .245',width:'.23',height:'.08',depth:'.18',color:'#f3914d'});
     }
-
-    function mezclar(lista) {
-      const r = [...lista];
-      for (let i = r.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [r[i], r[j]] = [r[j], r[i]];
-      }
-      return r;
+    bola(g,{position:'-.09 .035 .204',radius:'.029',color:'#202744'});
+    bola(g,{position:'.09 .035 .204',radius:'.029',color:'#202744'});
+    if(nombre!=='PATO'){
+      bola(g,{position:'0 -.105 .231',radius:'.048',color:nombre==='VACA'?'#eb91a4':'#5a3a42'});
+      if(nombre==='VACA')bola(g,{position:'0 -.15 .18',scale:'0.18 0.10 0.11',color:'#f4b1bb'});
     }
-
-    function pantalla(cual) {
-      const mostrandoJuego = cual === 'juego';
-      menu.setAttribute('visible', !mostrandoJuego);
-      juego.setAttribute('visible', mostrandoJuego);
-      // Alejar físicamente la pantalla oculta evita clics fantasma por la mirada.
-      menu.setAttribute('position', mostrandoJuego ? '0 -1000 -3.7' : '0 1.6 -3.7');
-      juego.setAttribute('position', mostrandoJuego ? '0 1.6 -3.7' : '0 -1000 -3.7');
+    return g;
+  }
+  function forma3D(p,nombre){
+    const conf={ESFERA:['sphere','#4cbbff'],CUBO:['box','#fba662'],CONO:['cone','#b999ff'],
+      CILINDRO:['cylinder','#43d5a1'],ANILLO:['torus','#ff7198']};
+    const [tipo,color]=conf[nombre];mini(p,tipo,color,0,0,0,1.32);
+  }
+  function paisaje(){
+    const p=$('paisaje');
+    const nube=(x,y,z,s)=>{
+      const g=grupo(p,{position:`${x} ${y} ${z}`,scale:`${s} ${s} ${s}`,
+        animation:`property:position; to:${x+.45} ${y} ${z}; dir:alternate; dur:5500; easing:easeInOutSine; loop:true`});
+      [-.40,0,.38].forEach((dx,i)=>bola(g,{position:`${dx} ${i===1?.14:0} 0`,scale:`${i===1?.68:.53} .35 .37`,color:'#ffffff'}));
+    };
+    nube(-3.2,4,-9,1.4);nube(3.8,3.5,-11,1.6);
+    for(const x of [-5.3,5.3,-8,8]){
+      const z=x<0?-7.5:-8;
+      elemento('a-cylinder',p,{position:`${x} .72 ${z}`,radius:'.20',height:'1.45',color:'#906a58'});
+      bola(p,{position:`${x} 1.8 ${z}`,radius:'.88',color:x<0?'#42aa7c':'#46b994'});
+      bola(p,{position:`${x-.25} 2.03 ${z+.2}`,radius:'.55',color:'#64c797'});
     }
-
-    function pieza(padre, tipo, atributos) {
-      const el = document.createElement(tipo);
-      Object.entries(atributos).forEach(([nombre, valor]) => el.setAttribute(nombre, valor));
-      padre.appendChild(el);
-      return el;
+    for(let i=0;i<12;i++){
+      const x=(i%2===0?-1:1)*(2.5+(i%4)*.52),z=-3.2-Math.floor(i/2)*.8;
+      elemento('a-cone',p,{position:`${x} .15 ${z}`,'radius-bottom':'.11',height:'.3',color:i%3===0?'#ffdb6f':'#ff8fab'});
     }
+    // Mascota robot flotando a un costado de la pantalla.
+    const robo=grupo(p,{position:'2.7 2.35 -4.1',
+      animation:'property:position; to:2.7 2.54 -4.1; dir:alternate; dur:1700; easing:easeInOutSine; loop:true'});
+    bola(robo,{radius:'.43',color:'#fafbff'});
+    bola(robo,{position:'-.16 .06 .38',radius:'.065',color:'#243c6a'});
+    bola(robo,{position:'.16 .06 .38',radius:'.065',color:'#243c6a'});
+    caja(robo,{position:'0 -.17 .38',width:'.19',height:'.045',depth:'.02',color:'#f6979b'});
+    elemento('a-cone',robo,{position:'0 .48 0','radius-bottom':'.09',height:'.22',color:'#ffe173'});
+    bola(robo,{position:'0 .60 0',radius:'.08',color:'#ffe173'});
+    texto(p,'NOVA',2.7,1.69,-4.0,2,'#154c69');
+  }
 
-    function dibujarAnimal(padre, animal) {
-      const modelo = pieza(padre, 'a-entity', {scale: '0.85 0.85 0.85'});
-      if (animal === 'GATO') {
-        pieza(modelo, 'a-sphere', {position: '0 0 0', radius: '0.26', color: '#F9A65D'});
-        pieza(modelo, 'a-cone', {position: '-0.17 0.23 0', 'radius-bottom': '0.12', height: '0.25', color: '#F9A65D'});
-        pieza(modelo, 'a-cone', {position: '0.17 0.23 0', 'radius-bottom': '0.12', height: '0.25', color: '#F9A65D'});
-      } else if (animal === 'PERRO') {
-        pieza(modelo, 'a-sphere', {position: '0 0 0', radius: '0.26', color: '#B47A54'});
-        pieza(modelo, 'a-sphere', {position: '-0.27 0.05 0', scale: '0.14 0.25 0.12', color: '#764A38'});
-        pieza(modelo, 'a-sphere', {position: '0.27 0.05 0', scale: '0.14 0.25 0.12', color: '#764A38'});
-        pieza(modelo, 'a-sphere', {position: '0 -0.12 0.24', radius: '0.12', color: '#E8CAA0'});
+  // ---------- MENÚ ----------
+  panel(menu);
+  texto(menu,'EDUCA VR',0,.99,.10,6,'#ffffff');
+  texto(menu,'ACADEMIA DE EXPLORADORES',0,.68,.10,3.9,'#a4ecff');
+  texto(menu,'ELIGE TU MISION',0,.38,.10,4,'#ffe27c');
+  const mundos=[
+    {id:'numeros',titulo:'NUMEROS',sub:'SUMAS Y RESTAS',x:-1.19,color:'#fb668b'},
+    {id:'animales',titulo:'ANIMALES',sub:'AMIGOS 3D',x:0,color:'#23bfa8'},
+    {id:'formas',titulo:'FORMAS',sub:'FIGURAS 3D',x:1.19,color:'#eab34d'}
+  ];
+  mundos.forEach(w=>{
+    const g=grupo(menu,{position:`${w.x} -.30 .08`});
+    caja(g,{position:'0 0 -.03',width:'1.06',height:'1.13',depth:'.10',color:w.color});
+    const hit=caja(g,{position:'0 0 .045',width:'1.06',height:'1.13',depth:'.06',color:w.color});
+    if(w.id==='numeros'){
+      bola(g,{position:'0 .16 .20',radius:'.26',color:'#ffe6a9'});
+      texto(g,'2+3',0,.07,.46,3.7,'#1c3558');
+    } else if(w.id==='animales'){
+      const a=grupo(g,{position:'0 .16 .25'});animal3D(a,'GATO');
+    } else {
+      const a=grupo(g,{position:'0 .15 .26'});forma3D(a,'CUBO');
+    }
+    texto(g,w.titulo,0,-.29,.13,3,'#ffffff');
+    texto(g,w.sub,0,-.45,.13,2.4,'#ffffff');
+    activar(hit,()=>iniciar(w.id));
+  });
+  const mejorMenu=texto(menu,'RECORD: '+estado.mejor,0,-1.05,.10,3.2,'#bde9ff');
+  texto(menu,'MIRA UNA TARJETA DURANTE 1.2 SEGUNDOS',0,-1.23,.10,3.6,'#d0e7fb');
+
+  // ---------- JUEGO ----------
+  panel(juego);
+  botonPlano(juego,'MENU',-1.50,1.03,'#4b669d',regresar,.67);
+  const marcador=texto(juego,'PUNTOS: 0',1.01,1.01,.13,3.3,'#ffdc6c');
+  const mision=texto(juego,'RETO 1 / 5',0,.96,.12,2.5,'#b9ecff');
+  const instruccion=texto(juego,'PREGUNTA',0,.56,.13,4.5,'#ffffff');
+  const aclaracion=texto(juego,'ELIGE UNA DE LAS TRES OPCIONES',0,.28,.13,3.9,'#c4ecf8');
+  const opciones=[];
+  [-1.17,0,1.17].forEach((x,i)=>{
+    const g=grupo(juego,{position:`${x} -.34 .10`});
+    caja(g,{position:'0 0 -.035',width:'1.075',height:'1.12',depth:'.08',color:'#66bce9'});
+    const hit=caja(g,{position:'0 0 .035',width:'1.03',height:'1.075',depth:'.08',color:'#f1f8ff'});
+    const modelo=grupo(g,{position:'0 .15 .21'});
+    const etiqueta=texto(g,'',0,-.32,.21,3.3,'#253759');
+    activar(hit,()=>responder(i));
+    opciones.push({g,hit,modelo,etiqueta});
+  });
+  const feedback=texto(juego,'¡TU PUEDES!',0,-1.05,.11,4.2,'#bdeeff');
+  const progreso=texto(juego,'★ ☆ ☆ ☆ ☆',0,-1.24,.11,3.7,'#fbd66a');
+
+  // ---------- PANTALLA FINAL ----------
+  panel(fin);
+  texto(fin,'¡MISION CUMPLIDA!',0,.94,.13,5.4,'#ffe47f');
+  texto(fin,'LO LOGRASTE, EXPLORADOR',0,.58,.13,4.2,'#ffffff');
+  const medalla=texto(fin,'★ ★ ★',0,.13,.13,6,'#ffe57a');
+  const resumen=texto(fin,'',0,-.30,.13,4.4,'#e2f6ff');
+  const detalle=texto(fin,'',0,-.56,.13,3.6,'#98e0ec');
+  botonPlano(fin,'REPETIR',-.83,-.99,'#25bda6',()=>iniciar(estado.modo),1.35);
+  botonPlano(fin,'MENU',.83,-.99,'#5578b0',regresar,1.35);
+
+  function mostrar(nombre){
+    Object.entries(pantallas).forEach(([clave,el])=>{
+      const ver=clave===nombre;el.setAttribute('visible',ver);
+      el.setAttribute('position',`0 ${ver?'1.65':'-1000'} -3.05`);
+    });
+  }
+  function iniciar(modo){
+    clearTimeout(estado.temporizador);
+    Object.assign(estado,{modo,ronda:0,puntos:0,racha:0,errores:0,bloqueado:false,
+      posiciones:[],posAnterior:-1,ultimo:{}});
+    mostrar('juego');preguntar();
+  }
+  function regresar(){
+    clearTimeout(estado.temporizador);estado.bloqueado=false;
+    if('speechSynthesis' in window)speechSynthesis.cancel();
+    mejorMenu.setAttribute('value','RECORD: '+estado.mejor);
+    mostrar('menu');
+  }
+  function preguntaNumeros(){
+    let a,b,correcta,pregunta;
+    if(estado.ronda>=4 && Math.random()>.5){
+      a=5+Math.floor(Math.random()*7);b=1+Math.floor(Math.random()*5);
+      correcta=a-b;pregunta=`CUANTO ES ${a} - ${b} ?`;
+    } else {
+      const max=estado.ronda<3?5:8;
+      a=1+Math.floor(Math.random()*max);b=1+Math.floor(Math.random()*max);
+      correcta=a+b;pregunta=`CUANTO ES ${a} + ${b} ?`;
+    }
+    const incorrectas=new Set();
+    const desplazamientos=mezclar([-3,-2,-1,1,2,3,4,-4,5]);
+    for(const delta of desplazamientos){
+      const n=correcta+delta;
+      if(n>=0&&n<=20&&n!==correcta)incorrectas.add(n);
+      if(incorrectas.size===2)break;
+    }
+    const dist=distribuir(correcta,[...incorrectas]);
+    return {...dist,correcta,pregunta,ayuda:'RESUELVE LA OPERACION'};
+  }
+  function preguntaObjetos(tipo){
+    const lista=tipo==='animales'?ANIMALES:FORMAS;
+    const correcta=sinRepetir(lista,tipo);
+    const otras=mezclar(lista.filter(n=>n!==correcta)).slice(0,2);
+    const dist=distribuir(correcta,otras);
+    return {...dist,correcta,pregunta:tipo==='animales'?`ENCUENTRA EL ${correcta}`:
+      `ENCUENTRA ${correcta==='ESFERA'?'LA':'EL'} ${correcta}`,ayuda:'OBSERVA LAS FIGURAS 3D'};
+  }
+  function actualizarModelo(){
+    opciones.forEach((o,i)=>{
+      while(o.modelo.firstChild)o.modelo.removeChild(o.modelo.firstChild);
+      o.hit.setAttribute('color','#f1f8ff');
+      const v=estado.opciones[i];
+      if(estado.modo==='numeros'){
+        // Tarjeta numérica plana: mucho más legible en modo estereoscópico.
+        caja(o.modelo,{position:'0 -.025 -.015',width:'.70',height:'.55',depth:'.075',
+          color:['#ffb078','#6ccaff','#79dbc0'][i]});
+        texto(o.modelo,String(v),0,-.17,.065,5.4,'#1a3760');
+        o.etiqueta.setAttribute('value','OPCION '+(i+1));
+      } else if(estado.modo==='animales'){
+        animal3D(o.modelo,v);
+        o.etiqueta.setAttribute('value','OPCION '+(i+1));
       } else {
-        pieza(modelo, 'a-sphere', {position: '0 -0.08 0', radius: '0.26', color: '#F8D24F'});
-        pieza(modelo, 'a-sphere', {position: '0 0.18 0.08', radius: '0.20', color: '#F8D24F'});
-        pieza(modelo, 'a-box', {position: '0 0.10 0.28', width: '0.22', height: '0.08', depth: '0.18', color: '#F28B42'});
+        forma3D(o.modelo,v);
+        o.etiqueta.setAttribute('value','OPCION '+(i+1));
       }
-      if (animal !== 'PATO') {
-        pieza(modelo, 'a-sphere', {position: '-0.105 0.06 0.23', radius: '0.032', color: '#172239'});
-        pieza(modelo, 'a-sphere', {position: '0.105 0.06 0.23', radius: '0.032', color: '#172239'});
-        pieza(modelo, 'a-sphere', {position: '0 -0.06 0.275', radius: '0.045', color: '#45333A'});
-      } else {
-        pieza(modelo, 'a-sphere', {position: '-0.09 0.22 0.25', radius: '0.025', color: '#172239'});
-        pieza(modelo, 'a-sphere', {position: '0.09 0.22 0.25', radius: '0.025', color: '#172239'});
-      }
+    });
+  }
+  function preguntar(){
+    estado.bloqueado=false;
+    const q=estado.modo==='numeros'?preguntaNumeros():preguntaObjetos(estado.modo);
+    Object.assign(estado,{solucion:q.pos,opciones:q.opciones,correcta:q.correcta,pregunta:q.pregunta});
+    instruccion.setAttribute('value',q.pregunta);
+    aclaracion.setAttribute('value',q.ayuda);
+    mision.setAttribute('value',`RETO ${estado.ronda+1} / ${MISIONES}`);
+    marcador.setAttribute('value',`PUNTOS: ${estado.puntos}`);
+    feedback.setAttribute('value','¡OBSERVA Y ELIGE!');feedback.setAttribute('color','#bdeeff');
+    progreso.setAttribute('value',Array.from({length:MISIONES},(_,i)=>i<estado.ronda?'★':'☆').join(' '));
+    actualizarModelo();voz(q.pregunta.replace('CUANTO','Cuánto'));
+  }
+  function lluviaEstrellas(){
+    const area=$('celebracion');while(area.firstChild)area.removeChild(area.firstChild);
+    for(let i=0;i<15;i++){
+      const x=(Math.random()-.5)*3.4,y=(Math.random()-.5)*1.7;
+      const c=['#ffe26e','#6af1d9','#ff94aa','#a7c7ff'][i%4];
+      const estrella=elemento('a-octahedron',area,{position:`${x} ${y} .04`,radius:'.065',color:c,
+        animation__caida:`property:position; to:${x+(Math.random()-.5)*.7} ${y-1.2} .04; dur:1150; easing:easeOutQuad`,
+        animation__giro:'property:rotation; to:0 360 360; dur:1150'});
     }
-
-    function dibujarForma(padre, forma) {
-      const c = {ESFERA: '#5FBBF5', CUBO: '#F39E61', CONO: '#9C86EF'}[forma];
-      if (forma === 'ESFERA') pieza(padre, 'a-sphere', {radius: '0.28', color: c});
-      if (forma === 'CUBO') pieza(padre, 'a-box', {width: '0.48', height: '0.48', depth: '0.42', rotation: '15 25 0', color: c});
-      if (forma === 'CONO') pieza(padre, 'a-cone', {'radius-bottom': '0.27', height: '0.57', color: c});
+    setTimeout(()=>{while(area.firstChild)area.removeChild(area.firstChild)},1250);
+  }
+  function responder(i){
+    if(estado.bloqueado||!estado.modo)return;
+    const o=opciones[i];
+    if(i!==estado.solucion){
+      estado.bloqueado=true;estado.errores++;estado.racha=0;
+      o.hit.setAttribute('color','#ff9fac');feedback.setAttribute('color','#ffbfc9');
+      feedback.setAttribute('value','¡CASI! PRUEBA OTRA VEZ');sonidoMal();voz('Casi. Inténtalo de nuevo.');
+      estado.temporizador=setTimeout(()=>{
+        o.hit.setAttribute('color','#f1f8ff');estado.bloqueado=false;
+        feedback.setAttribute('value','¡TU PUEDES!');feedback.setAttribute('color','#bdeeff');
+      },950);
+      return;
     }
-
-    function pintarOpciones(opciones) {
-      tarjetas.forEach((tarjeta, i) => {
-        const modelo = tarjeta.querySelector('.modelo');
-        const etiqueta = tarjeta.querySelector('.etiqueta');
-        // Limpiar los modelos de la pregunta anterior.
-        while (modelo.firstChild) modelo.removeChild(modelo.firstChild);
-        etiqueta.setAttribute('value', String(opciones[i]));
-        tarjeta.querySelector('.opcion').setAttribute('color', '#F3F5FF');
-        if (modo === 'numeros') {
-          pieza(modelo, 'a-sphere', {radius: '0.27', color: ['#FA7C7E','#61B9E8','#8FCF8A'][i]});
-          pieza(modelo, 'a-text', {value: String(opciones[i]), align: 'center',
-            position: '0 -0.08 0.26', color: '#FFFFFF', width: '4.2', 'wrap-count': '18'});
-          etiqueta.setAttribute('value', 'RESULTADO');
-        } else if (modo === 'animales') {
-          dibujarAnimal(modelo, opciones[i]);
-        } else {
-          dibujarForma(modelo, opciones[i]);
-        }
-      });
-    }
-
-    function nuevaPregunta() {
-      if (!modo) return;
-      ocupado = false;
-      mensaje.setAttribute('value', 'Mira la tarjeta correcta durante 1.5 s');
-      mensaje.setAttribute('color', '#D2EDFC');
-      let opciones, correcta, preguntaTexto;
-
-      if (modo === 'numeros') {
-        const a = 1 + Math.floor(Math.random() * 5);
-        const b = 1 + Math.floor(Math.random() * 5);
-        correcta = a + b;
-        const incorrectas = mezclar([...Array(11).keys()].filter(n => n >= 2 && n !== correcta)).slice(0, 2);
-        opciones = mezclar([correcta, ...incorrectas]);
-        preguntaTexto = `¿CUÁNTO ES ${a} + ${b}?`;
-      } else if (modo === 'animales') {
-        opciones = mezclar(['GATO', 'PERRO', 'PATO']);
-        correcta = ['GATO', 'PERRO', 'PATO'][Math.floor(Math.random() * 3)];
-        preguntaTexto = `ENCUENTRA EL ${correcta}`;
-      } else {
-        opciones = mezclar(['ESFERA', 'CUBO', 'CONO']);
-        correcta = ['ESFERA', 'CUBO', 'CONO'][Math.floor(Math.random() * 3)];
-        preguntaTexto = `ENCUENTRA EL ${correcta}`.replace('EL ESFERA', 'LA ESFERA');
-      }
-      respuestaCorrecta = opciones.indexOf(correcta);
-      pregunta.setAttribute('value', preguntaTexto);
-      pintarOpciones(opciones);
-      hablar(preguntaTexto);
-    }
-
-    function iniciar(modoElegido) {
-      clearTimeout(temporizador);
-      modo = modoElegido;
-      ocupado = false;
-      pantalla('juego');
-      nuevaPregunta();
-    }
-
-    function volver() {
-      clearTimeout(temporizador);
-      modo = '';
-      ocupado = false;
-      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      pantalla('menu');
-    }
-
-    function responder(indice) {
-      if (!modo || ocupado) return;
-      const tarjeta = tarjetas[indice].querySelector('.opcion');
-      if (indice === respuestaCorrecta) {
-        ocupado = true;
-        puntos += 10;
-        puntosEl.setAttribute('value', 'PUNTOS: ' + puntos);
-        tarjeta.setAttribute('color', '#70D89B');
-        mensaje.setAttribute('value', '¡CORRECTO! +10 PUNTOS');
-        mensaje.setAttribute('color', '#82F0AF');
-        hablar('¡Muy bien! ¡Correcto!');
-        temporizador = setTimeout(nuevaPregunta, 2100);
-      } else {
-        ocupado = true;
-        tarjeta.setAttribute('color', '#FF9B9B');
-        mensaje.setAttribute('value', 'CASI, PRUEBA OTRA TARJETA');
-        mensaje.setAttribute('color', '#FFD0D0');
-        hablar('Casi, inténtalo otra vez');
-        temporizador = setTimeout(() => {
-          if (!modo) return;
-          tarjeta.setAttribute('color', '#F3F5FF');
-          mensaje.setAttribute('value', 'Mira la tarjeta correcta durante 1.5 s');
-          mensaje.setAttribute('color', '#D2EDFC');
-          ocupado = false;
-        }, 1100);
-      }
-    }
-
-    document.querySelectorAll('[data-modo]').forEach(el =>
-      el.addEventListener('click', () => iniciar(el.dataset.modo)));
-    document.querySelectorAll('.opcion').forEach(el =>
-      el.addEventListener('click', () => responder(Number(el.dataset.idx))));
-    document.querySelector('#volver').addEventListener('click', volver);
-  </script>
+    estado.bloqueado=true;estado.racha++;estado.puntos+=10+(estado.racha>=3?5:0);
+    o.hit.setAttribute('color','#67e7a0');
+    o.etiqueta.setAttribute('value',String(estado.correcta));
+    marcador.setAttribute('value',`PUNTOS: ${estado.puntos}`);
+    feedback.setAttribute('value',estado.racha>=3?'¡INCREIBLE! BONUS POR RACHA':'¡EXCELENTE! +10 PUNTOS');
+    feedback.setAttribute('color','#ffe174');sonidoBien();lluviaEstrellas();
+    voz(`¡Muy bien! ${estado.correcta}.`);
+    estado.temporizador=setTimeout(()=>{
+      estado.ronda++;
+      if(estado.ronda>=MISIONES)terminar();else preguntar();
+    },1750);
+  }
+  function terminar(){
+    const estrellas=estado.errores===0?3:estado.errores<=2?2:1;
+    medalla.setAttribute('value',Array.from({length:3},(_,i)=>i<estrellas?'★':'☆').join(' '));
+    resumen.setAttribute('value',`5 RETOS COMPLETADOS  |  ${estado.puntos} PUNTOS`);
+    detalle.setAttribute('value',`ERRORES: ${estado.errores}  |  ESTRELLAS: ${estrellas}`);
+    if(estado.puntos>estado.mejor){estado.mejor=estado.puntos;
+      try{localStorage.setItem('educavr-mejor',String(estado.mejor))}catch(e){}}
+    mostrar('final');lluviaEstrellas();sonidoBien();
+    voz('¡Misión cumplida! ¡Eres un gran explorador!');
+  }
+  paisaje();mostrar('menu');
+  $('entrar').addEventListener('click',()=>{
+    $('entrada').style.display='none';tono(523,.12);setTimeout(()=>tono(784,.2),140);
+    voz('¡Bienvenido a Educa VR! Elige tu mundo para comenzar.');
+  });
+  $('escena').addEventListener('enter-vr',()=>document.body.classList.add('en-vr'));
+  $('escena').addEventListener('exit-vr',()=>document.body.classList.remove('en-vr'));
+})();
+</script>
 </body>
 </html>
